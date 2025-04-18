@@ -1,20 +1,21 @@
 <html>
 <body>
-    <div style="display: flex;">
-        <div>
+    <div style="display: flex; align-items: center;">
+        <div style="position: absolute;
+        left: 50%;
+        transform: translateX(-50%);">
             <h1>Score: <span id="scoreboard" style="text-align: center;">0</span></h1>
         </div>
 
-        <div>
-            <label class="switch">
-                <input type="checkbox" id="dark-mode-toggle" onclick="setTheme()">
-                <label for="dark-mode-toggle">Dark Mode</label>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        
-        <div>
-            <label>
+        <div style="margin-left: auto;">
+            <div class="switch">
+                <input id="switch__input" type="checkbox" onclick="setTheme()">
+                <label for="switch__input">
+                Dark Mode<span></span>
+                </label>
+              </div>
+              
+              <label>
                 <input type="radio" name="colors" value="1" onclick="setColors()" checked>
                 <img src="colors1.png" alt="Option 1" width="70">
               </label>

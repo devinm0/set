@@ -322,13 +322,14 @@ function threeTilesAreSet (tile1, tile2, tile3) {
 }
 
 function setTheme () {
-    var checkbox = document.getElementById('dark-mode-toggle');
+    var checkbox = document.getElementById('switch__input');
     if (checkbox.checked) {
 	    theme = "dark";
     }else{
 	    theme = "light";
     }
     document.body.style.backgroundColor = theme == "dark" ? "rgb(50,50,50)" : "white";
+    document.body.style.color = theme == "dark" ? "white" : "black";
     drawTiles();
 }
 
