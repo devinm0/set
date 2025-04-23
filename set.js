@@ -116,11 +116,120 @@ class UI {
             case "squiggle":
                 this.drawSquiggle(x, y, shading)
                 break;
+            case "heart":
+                this.drawHeart(x, y, shading)
+                break;
+            case "flower":
+                this.drawFlower(x, y, shading)
+                break;
+            case "gingerbreadman":
+                this.drawGingerbreadMan(x, y, shading)
+                break;
             default:
                 ctx.beginPath();
                 ctx.fillRect(x, y, 50, 50);
                 break;
         }
+    }
+
+    drawHeart(x, y, shading) {
+        let ysize = 24;
+        let xsize = 20;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y - ysize * 3 / 4);
+        
+        // right bump
+        ctx.quadraticCurveTo( x, y - ysize, x + xsize / 2, y - ysize);
+        ctx.quadraticCurveTo( x + xsize, y - ysize, x + xsize, y - ysize / 2);
+
+        // bottom
+        ctx.quadraticCurveTo( x + xsize, y + ysize / 4, x, y + ysize);
+        ctx.quadraticCurveTo( x - xsize, y + ysize / 4, x - xsize, y - ysize / 2);
+
+        // left bump
+        ctx.quadraticCurveTo( x - xsize, y - ysize, x - xsize / 2, y - ysize);
+        ctx.quadraticCurveTo( x, y - ysize, x, y - ysize * 3 / 4);
+        ctx.closePath();
+    
+        this.shade(shading);
+    }
+
+    drawFlower(x, y, shading) {
+        let petals = 8;
+        let radius = 32;
+        let angleOffset = 50;
+
+        console.log('hi1');
+        ctx.beginPath();
+
+        // let angle = 0;
+        ctx.moveTo(
+            x + Math.cos(- Math.PI / petals) * radius / 2,
+            y + Math.sin(- Math.PI / petals) * radius / 2
+        );
+
+        for (let i = 0; i < petals; i++) {
+            let angle = (i * 2 * Math.PI) / petals;
+
+            // Calculate the petal center
+            let petalX = x + Math.cos(angle) * radius;
+            let petalY = y + Math.sin(angle) * radius;
+
+            // Draw each petal as a bezier curve
+
+            // ctx.moveTo(x, y);
+            // ctx.quadraticCurveTo(
+            //     x + Math.cos(angle - Math.PI / petals) * radius,
+            //     y + Math.sin(angle - Math.PI / petals) * radius,
+            //     petalX, petalY
+            // );
+            // ctx.quadraticCurveTo(
+            //     x + Math.cos(angle + Math.PI / petals) * radius,
+            //     y + Math.sin(angle + Math.PI / petals) * radius,
+            //     x, y
+            // );
+
+            
+            ctx.quadraticCurveTo(
+                petalX, petalY,
+                x + Math.cos(angle + Math.PI / petals) * radius / 2,
+                y + Math.sin(angle + Math.PI / petals) * radius / 2
+            );
+            // ctx.fill();
+            // ctx.stroke();
+        }
+          
+        ctx.closePath();
+    
+        console.log('hi2');
+
+        this.shade(shading);
+    }
+
+    drawGingerbreadMan(x, y, shading) {
+        let size = 31;
+        ctx.beginPath();
+        ctx.moveTo(x, y - size);
+        ctx.quadraticCurveTo(x + size / 2, y - size, x + size / 3, y - size / 3);
+        ctx.lineTo(x + size / 1.5, y - size / 2.5);
+        ctx.lineTo(x + size / 1.4, y - size / 4);
+        ctx.lineTo(x + size / 2.5, y);
+        ctx.lineTo(x + size / 2, y + size);
+        ctx.lineTo(x + size / 3, y + size);
+        ctx.lineTo(x, y + size / 2);
+
+        ctx.lineTo(x - size / 3, y + size);
+        ctx.lineTo(x - size / 2, y + size);
+        ctx.lineTo(x - size / 2.5, y);
+        ctx.lineTo(x - size / 1.4, y - size / 4);
+        ctx.lineTo(x - size / 1.5, y - size / 2.5);
+        ctx.lineTo(x - size / 3, y - size / 3);
+        ctx.quadraticCurveTo(x - size / 2, y - size, x , y - size);
+
+        ctx.closePath();
+    
+        this.shade(shading);
     }
 
     drawDiamond(x, y, shading) {
@@ -198,6 +307,21 @@ class UI {
                 break;
             case '2':
                 Colors = Colors2;
+                break;
+            default:
+                console.log('Unknown option selected');
+                break;
+        }
+        this.drawTiles();
+    }
+
+    setShapes (shapesSet) {
+        switch(shapesSet) {
+            case '1':
+                Shapes = Shapes1;
+                break;
+            case '2':
+                Shapes = Shapes2;
                 break;
             default:
                 console.log('Unknown option selected');
@@ -293,6 +417,12 @@ class Board {
     }
 }
 
+const Colors0 = {
+    0: "grey",
+    1: "grey",
+    2: "grey"
+};
+
 const Colors1 = {
     0: "rgb(255,0,200)",
     1: "rgb(150,150,250)",
@@ -307,11 +437,19 @@ const Colors2 = {
 
 let Colors = Colors1;
 
-const Shapes = {
+const Shapes1 = {
     0: "squiggle",
     1: "pill",
     2: "diamond"
 };
+
+const Shapes2 = {
+    0: "heart",
+    1: "flower",
+    2: "gingerbreadman"
+};
+
+let Shapes = Shapes2;
 
 const Shading = {
     0: "hollow",
@@ -458,6 +596,14 @@ canvas.addEventListener('click', function(event) {
     radio.addEventListener('click', (event) => {
       if (event.target.checked) {
         ui.setColors(event.target.value);
+      }
+    });
+  });
+
+  document.querySelectorAll('input[name=\'shapes\']').forEach((radio) => {
+    radio.addEventListener('click', (event) => {
+      if (event.target.checked) {
+        ui.setShapes(event.target.value);
       }
     });
   });
