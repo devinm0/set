@@ -158,9 +158,7 @@ class UI {
     drawFlower(x, y, shading) {
         let petals = 8;
         let radius = 32;
-        let angleOffset = 50;
 
-        console.log('hi1');
         ctx.beginPath();
 
         // let angle = 0;
@@ -172,38 +170,18 @@ class UI {
         for (let i = 0; i < petals; i++) {
             let angle = (i * 2 * Math.PI) / petals;
 
-            // Calculate the petal center
             let petalX = x + Math.cos(angle) * radius;
             let petalY = y + Math.sin(angle) * radius;
-
-            // Draw each petal as a bezier curve
-
-            // ctx.moveTo(x, y);
-            // ctx.quadraticCurveTo(
-            //     x + Math.cos(angle - Math.PI / petals) * radius,
-            //     y + Math.sin(angle - Math.PI / petals) * radius,
-            //     petalX, petalY
-            // );
-            // ctx.quadraticCurveTo(
-            //     x + Math.cos(angle + Math.PI / petals) * radius,
-            //     y + Math.sin(angle + Math.PI / petals) * radius,
-            //     x, y
-            // );
-
             
             ctx.quadraticCurveTo(
                 petalX, petalY,
                 x + Math.cos(angle + Math.PI / petals) * radius / 2,
                 y + Math.sin(angle + Math.PI / petals) * radius / 2
             );
-            // ctx.fill();
-            // ctx.stroke();
         }
           
         ctx.closePath();
     
-        console.log('hi2');
-
         this.shade(shading);
     }
 
@@ -449,7 +427,7 @@ const Shapes2 = {
     2: "gingerbreadman"
 };
 
-let Shapes = Shapes2;
+let Shapes = Shapes1;
 
 const Shading = {
     0: "hollow",
@@ -458,6 +436,8 @@ const Shading = {
 };
 
 let theme = "light";
+
+let time = 0;
 
 let score = 0;
 let scoreboard = document.getElementById('scoreboard');
@@ -487,6 +467,34 @@ let board = new Board(ui);
 let numTilesSelected = 0;
 
 ui.drawTiles();
+
+var timerVar;
+function startTimer() {
+    timerVar = setInterval(timer, 1000); //starts timer
+    time = 20; //time
+    document.getElementById("timer").textContent = time; //displays time 
+
+    score = 0;
+    scoreboard.textContent = score;
+}
+
+function timer() { 
+    time--; 
+    document.getElementById("timer").textContent = time; //displays time 
+
+    if (time == 0) {
+        stopTimer();
+    }
+}
+
+function stopTimer() {
+   clearInterval(timerVar); //stops timer 
+
+   console.log("Congrats you found " + score + " sets!");
+
+   scoreboard.textContent = "Congrats you found " + score + " sets!";
+   score = 0;
+}
 
 function generateTilePossiblyDuplicate() {
     return new Tile(

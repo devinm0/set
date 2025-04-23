@@ -1,13 +1,17 @@
 <html>
 <body>
     <div style="display: flex; align-items: center;">
+        <div style="margin-left: 5%;">
+            <h1><span id="timer" style="text-align: center;">0</span></h1>
+        </div>
+        
         <div style="position: absolute;
         left: 50%;
         transform: translateX(-50%);">
             <h1><span id="scoreboard" style="text-align: center;">0</span></h1>
         </div>
 
-        <div style="margin-left: auto;">
+        <div style="margin-left: auto; margin-right: 5%;">
             <div class="switch">
                 <input id="switch__input" type="checkbox" onclick="ui.setTheme()">
                 <label for="switch__input">
@@ -45,11 +49,13 @@
     
 
 
-    <canvas id="main-canvas" width="1000" height="640" style="border:1px solid black;"></canvas>
+    <canvas id="main-canvas" width="1000" height="640" style="padding:5px;"></canvas>
 
     <div style="display: flex;">
-        <div>
-            <input id="start-button" type="button" value="Play" onclick="startGame();" />
+        <div style="position: absolute;
+        left: 50%;
+        transform: translateX(-50%);">
+            <input id="start-button" type="button" value="Play" onclick="startTimer();" />
         </div>
     </div>
     
